@@ -1,26 +1,44 @@
 package com.driver;
 
 import java.util.*;
-import org.springframework.web.bind.annotation.*;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("whatsapp")
+@RequestMapping("/whatsapp")
 public class WhatsappController {
 
     // Autowire will not work in this case, no need to change this and add autowire
     WhatsappService whatsappService = new WhatsappService();
 
     @PostMapping("/add-user")
-    public String createUser(String name, String mobile) throws Exception {
+    public String createUser(@RequestParam String name, @RequestParam String mobile) throws Exception {
         // If the mobile number exists in database, throw "User already exists"
         // exception
         // Otherwise, create the user and return "SUCCESS"
 
-        return whatsappService.createUser(name, mobile);
+        try {
+            whatsappService.createUser(name, mobile);
+            return "SUCCESS";
+        } catch (Exception e) {
+            return e.getMessage();
+        }
+
     }
 
     @PostMapping("/add-group")
-    public Group createGroup(List<User> users) {
+    public Group createGroup(@RequestBody List<User> users) {
         // The list contains at least 2 users where the first user is the admin. A group
         // has exactly one admin.
         // If there are only 2 users, the group is a personal chat and the group name
@@ -41,22 +59,28 @@ public class WhatsappController {
     }
 
     @PostMapping("/add-message")
-    public int createMessage(String content) {
+    public int createMessage(@RequestParam String content) {
         // The 'i^th' created message has message id 'i'.
         // Return the message id.
 
         return whatsappService.createMessage(content);
+
     }
 
     @PutMapping("/send-message")
-    public int sendMessage(Message message, User sender, Group group) throws Exception {
+    public int sendMessage(@RequestBody Message message, @RequestBody User sender, @RequestBody Group group)
+            throws Exception {
         // Throw "Group does not exist" if the mentioned group does not exist
         // Throw "You are not allowed to send message" if the sender is not a member of
         // the group
         // If the message is sent successfully, return the final number of messages in
         // that group.
+        try {
+            return whatsappService.sendMessage(message, sender, group);
+        } catch (Exception e) {
+            throw new Exception(e.getMessage());
+        }
 
-        return whatsappService.sendMessage(message, sender, group);
     }
 
     @PutMapping("/change-admin")
@@ -69,7 +93,13 @@ public class WhatsappController {
         // one time there is only one admin and the admin rights are transferred from
         // approver to user.
 
-        return whatsappService.changeAdmin(approver, user, group);
+        try {
+            whatsappService.changeAdmin(approver, user, group);
+            return "SUCCESS";
+        } catch (Exception e) {
+            return null;
+        }
+
     }
 
     @DeleteMapping("/remove-user")
@@ -84,7 +114,12 @@ public class WhatsappController {
         // group + the updated number of messages in group + the updated number of
         // overall messages)
 
-        return whatsappService.removeUser(user);
+        try {
+            return whatsappService.removeUser(user);
+        } catch (Exception e) {
+            throw new Exception(e.getMessage());
+        }
+
     }
 
     @GetMapping("/find-messages")
@@ -94,6 +129,7 @@ public class WhatsappController {
         // If the number of messages between given time is less than K, throw "K is
         // greater than the number of messages" exception
 
-        return whatsappService.findMessage(start, end, K);
+        // return whatsappService.findMessage(start, end, K);
+        return null;
     }
 }
