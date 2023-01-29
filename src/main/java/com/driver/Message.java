@@ -10,6 +10,15 @@ public class Message {
     public Message() {
     }
 
+    public Message(String content, Date timestamp) {
+        this.content = content;
+        this.timestamp = timestamp;
+    }
+
+    public Message(String content) {
+        this.content = content;
+    }
+
     public Message(int id, String content, Date timestamp) {
         this.id = id;
         this.content = content;
