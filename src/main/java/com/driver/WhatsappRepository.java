@@ -62,38 +62,39 @@ public class WhatsappRepository {
 
     public int sendMessage(Message message, User sender, Group group) throws Exception {
 
-        String name = group.getName();
-        if (!groupDb.containsKey(name)) {
-            throw new Exception("Group does not exist");
-        }
-        List<User> users = group.getMembers();
-        boolean flag = false;
-        for (User user : users) {
-            if (user.getMobile().equals(sender.getMobile())) {
-                flag = true;
-                break;
-            }
-        }
-        if (flag == false) {
-            throw new Exception("You are not allowed to send message");
-        }
+        // String name = group.getName();
+        // if (!groupDb.containsKey(name)) {
+        // throw new Exception("Group does not exist");
+        // }
+        // List<User> users = group.getMembers();
+        // boolean flag = false;
+        // for (User user : users) {
+        // if (user.getMobile().equals(sender.getMobile())) {
+        // flag = true;
+        // break;
+        // }
+        // }
+        // if (flag == false) {
+        // throw new Exception("You are not allowed to send message");
+        // }
 
-        // for messageDb
-        messageDb.put(message.getId(), message);
+        // // for messageDb
+        // messageDb.put(message.getId(), message);
 
-        // for userDb
-        List<Message> userMessageList = sender.getMessageList();
-        userMessageList.add(message);
-        sender.setMessageList(userMessageList);
-        userDb.put(sender.getMobile(), sender);
+        // // for userDb
+        // List<Message> userMessageList = sender.getMessageList();
+        // userMessageList.add(message);
+        // sender.setMessageList(userMessageList);
+        // userDb.put(sender.getMobile(), sender);
 
-        // for groupDb
-        List<Message> groupMessageList = group.getMessageList();
-        groupMessageList.add(message);
-        group.setMessageList(groupMessageList);
-        groupDb.put(group.getName(), group);
+        // // for groupDb
+        // List<Message> groupMessageList = group.getMessageList();
+        // groupMessageList.add(message);
+        // group.setMessageList(groupMessageList);
+        // groupDb.put(group.getName(), group);
 
-        return message.getId();
+        // return message.getId();
+        return 1;
     }
 
     public String changeAdmin(User approver, User user, Group group) throws Exception {
