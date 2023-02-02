@@ -20,7 +20,7 @@ public class WhatsappController {
             whatsappService.createUser(name, mobile);
             return "SUCCESS";
         } catch (Exception e) {
-            return e.getMessage();
+            throw new Exception(e.getMessage());
         }
 
     }
@@ -50,13 +50,12 @@ public class WhatsappController {
     public int createMessage(@RequestParam String content) {
         // The 'i^th' created message has message id 'i'.
         // Return the message id.
-
         return whatsappService.createMessage(content);
 
     }
 
     @PutMapping("/send-message")
-    public int sendMessage(@RequestBody Message message, @RequestBody User sender, @RequestBody Group group)
+    public int sendMessage(@RequestBody dto dto)
             throws Exception {
         // Throw "Group does not exist" if the mentioned group does not exist
         // Throw "You are not allowed to send message" if the sender is not a member of
@@ -64,6 +63,9 @@ public class WhatsappController {
         // If the message is sent successfully, return the final number of messages in
         // that group.
         try {
+            Message message = dto.message;
+            User sender = dto.sender;
+            Group group = dto.group;
             return whatsappService.sendMessage(message, sender, group);
         } catch (Exception e) {
             throw new Exception(e.getMessage());
