@@ -48,16 +48,17 @@ public class WhatsappRepository {
 
     public int createMessage(String content) {
 
-        Message message = new Message();
-        int id = messageCount;
-        message.setId(id);
-        messageCount++;
-        message.setContent(content);
-        Date date = new Date();
-        message.setTimestamp(date);
+        // Message message = new Message();
+        // int id = messageCount;
+        // message.setId(id);
+        // messageCount++;
+        // message.setContent(content);
+        // Date date = new Date();
+        // message.setTimestamp(date);
 
-        messageDb.put(id, message);
-        return id;
+        // messageDb.put(id, message);
+        // return id;
+        return 1;
     }
 
     public int sendMessage(Message message, User sender, Group group) throws Exception {
@@ -124,77 +125,77 @@ public class WhatsappRepository {
 
     public int removeUser(User user) throws Exception {
 
-        // Group searchGroup = null;
-        // for (Group group : groupDb.values()) {
-        // List<User> groupUserList = group.getMembers();
-        // for (User member : groupUserList) {
-        // if (member.equals(user)) {
-        // searchGroup = group;
-        // break;
-        // }
-        // }
-        // }
-        // if (searchGroup == null) {
-        // throw new Exception("User not found");
-        // }
+        Group searchGroup = null;
+        for (Group group : groupDb.values()) {
+            List<User> groupUserList = group.getMembers();
+            for (User member : groupUserList) {
+                if (member.equals(user)) {
+                    searchGroup = group;
+                    break;
+                }
+            }
+        }
+        if (searchGroup == null) {
+            throw new Exception("User not found");
+        }
 
-        // if (user.equals(searchGroup.getAdmin())) {
-        // throw new Exception("Cannot remove admin");
-        // }
+        if (user.equals(searchGroup.getAdmin())) {
+            throw new Exception("Cannot remove admin");
+        }
 
-        // List<Message> userMessagesList = user.getMessageList();
-        // List<Message> groupMessagesList = searchGroup.getMessageList();
+        List<Message> userMessagesList = user.getMessageList();
+        List<Message> groupMessagesList = searchGroup.getMessageList();
 
-        // // Remove messages from messsageDb
-        // for (Message m : userMessagesList) {
-        // int id = m.getId();
-        // if (messageDb.containsKey(id)) {
-        // messageDb.remove(id);
-        // }
-        // }
+        // Remove messages from messsageDb
+        for (Message m : userMessagesList) {
+            int id = m.getId();
+            if (messageDb.containsKey(id)) {
+                messageDb.remove(id);
+            }
+        }
 
-        // // Remove messages from groupMessageList
-        // for (Message m : userMessagesList) {
-        // int id = m.getId();
-        // ListIterator<Message> itr = groupMessagesList.listIterator();
-        // while (itr.hasNext()) {
-        // if (id == itr.next().getId()) {
-        // itr.remove();
-        // break;
-        // }
-        // }
-        // }
-        // searchGroup.setMessageList(groupMessagesList);
-        // groupDb.put(searchGroup.getName(), searchGroup);
+        // Remove messages from groupMessageList
+        for (Message m : userMessagesList) {
+            int id = m.getId();
+            ListIterator<Message> itr = groupMessagesList.listIterator();
+            while (itr.hasNext()) {
+                if (id == itr.next().getId()) {
+                    itr.remove();
+                    break;
+                }
+            }
+        }
+        searchGroup.setMessageList(groupMessagesList);
+        groupDb.put(searchGroup.getName(), searchGroup);
 
-        // // Remove user for group list
-        // List<User> searchGroupUsers = searchGroup.getMembers();
-        // ListIterator<User> itr = searchGroupUsers.listIterator();
-        // while (itr.hasNext()) {
-        // if (itr.next().equals(user)) {
-        // itr.remove();
-        // break;
-        // }
-        // }
-        // searchGroup.setMembers(searchGroupUsers);
-        // searchGroup.setNumberOfParticipants(searchGroupUsers.size());
-        // groupDb.put(searchGroup.getName(), searchGroup);
+        // Remove user for group list
+        List<User> searchGroupUsers = searchGroup.getMembers();
+        ListIterator<User> itr = searchGroupUsers.listIterator();
+        while (itr.hasNext()) {
+            if (itr.next().equals(user)) {
+                itr.remove();
+                break;
+            }
+        }
+        searchGroup.setMembers(searchGroupUsers);
+        searchGroup.setNumberOfParticipants(searchGroupUsers.size());
+        groupDb.put(searchGroup.getName(), searchGroup);
 
-        // // Remove userMessageList from userDb
-        // userMessagesList = new ArrayList<>();
-        // user.setMessageList(userMessagesList);
-        // userDb.put(user.getMobile(), user);
+        // Remove userMessageList from userDb
+        userMessagesList = new ArrayList<>();
+        user.setMessageList(userMessagesList);
+        userDb.put(user.getMobile(), user);
 
-        // // return (updated number of users in the group + the updated number of
+        // return (updated number of users in the group + the updated number of
         // messages
-        // // in group +
-        // // the updated number of overall messages)
+        // in group +
+        // the updated number of overall messages)
 
-        // int ans = searchGroupUsers.size() + searchGroup.getMessageList().size() +
-        // messageDb.size();
+        int ans = searchGroupUsers.size() + searchGroup.getMessageList().size() +
+                messageDb.size();
 
-        // return ans;
-        return 1;
+        return ans;
+
     }
 
     public String findMessage(Date start, Date end, int k) {
