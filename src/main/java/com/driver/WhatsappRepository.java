@@ -155,7 +155,8 @@ public class WhatsappRepository {
             }
         }
 
-        // Remove messages from groupMessageList
+        // InGroup Db...............
+        // a....Remove messages from groupMessageList
         for (Message m : userMessagesList) {
             int id = m.getId();
             ListIterator<Message> itr = groupMessagesList.listIterator();
@@ -167,13 +168,11 @@ public class WhatsappRepository {
             }
         }
         searchGroup.setMessageList(groupMessagesList);
-        groupDb.put(searchGroup.getName(), searchGroup);
-
-        // Remove user for group list
+        // b....Remove user for group list
         List<User> searchGroupUsers = searchGroup.getMembers();
         ListIterator<User> itr = searchGroupUsers.listIterator();
         while (itr.hasNext()) {
-            if (itr.next().equals(user)) {
+            if (itr.next().getName().equals(user.getName())) {
                 itr.remove();
                 break;
             }
