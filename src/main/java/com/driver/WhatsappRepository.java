@@ -47,9 +47,8 @@ public class WhatsappRepository {
     public int createMessage(String content) {
 
         Message message = new Message();
-        int id = messageCount;
+        int id = messageCount++;
         message.setId(id);
-        messageCount++;
         message.setContent(content);
         Date date = new Date();
         message.setTimestamp(date);
@@ -77,7 +76,7 @@ public class WhatsappRepository {
         }
 
         // for messageDb
-        messageDb.put(message.getId(), message);
+        messageDb.put(messageCount++, message);
 
         // for userDb
         List<Message> userMessageList = sender.getMessageList();
