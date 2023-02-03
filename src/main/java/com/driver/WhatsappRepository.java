@@ -110,7 +110,7 @@ public class WhatsappRepository {
         List<User> users = group.getMembers();
         boolean flag = false;
         for (User u : users) {
-            if (u.equals(user)) {
+            if (u.getMobile().equals(user.getMobile())) {
                 flag = true;
                 break;
             }
@@ -130,7 +130,7 @@ public class WhatsappRepository {
         for (Group group : groupDb.values()) {
             List<User> groupUserList = group.getMembers();
             for (User member : groupUserList) {
-                if (member.equals(user)) {
+                if (member.getMobile().equals(user.getMobile())) {
                     searchGroup = group;
                     break;
                 }
@@ -140,7 +140,7 @@ public class WhatsappRepository {
             throw new Exception("User not found");
         }
 
-        if (user.equals(searchGroup.getAdmin())) {
+        if (user.getMobile().equals(searchGroup.getAdmin().getMobile())) {
             throw new Exception("Cannot remove admin");
         }
 
@@ -172,7 +172,7 @@ public class WhatsappRepository {
         List<User> searchGroupUsers = searchGroup.getMembers();
         ListIterator<User> itr = searchGroupUsers.listIterator();
         while (itr.hasNext()) {
-            if (itr.next().getName().equals(user.getName())) {
+            if (itr.next().getMobile().equals(user.getMobile())) {
                 itr.remove();
                 break;
             }
