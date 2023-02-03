@@ -37,7 +37,7 @@ public class WhatsappRepository {
             group.setNumberOfParticipants(2);
             groupDb.put(secondName, group);
         } else if (users.size() > 2) {
-            String name = "Group " + String.valueOf(groupCount);
+            String name = "Group " + groupCount;
             groupCount++;
             group.setName(name);
             group.setNumberOfParticipants(users.size());
@@ -48,17 +48,16 @@ public class WhatsappRepository {
 
     public int createMessage(String content) {
 
-        // Message message = new Message();
-        // int id = messageCount;
-        // message.setId(id);
-        // messageCount++;
-        // message.setContent(content);
-        // Date date = new Date();
-        // message.setTimestamp(date);
+        Message message = new Message();
+        int id = messageCount;
+        message.setId(id);
+        messageCount++;
+        message.setContent(content);
+        Date date = new Date();
+        message.setTimestamp(date);
 
-        // messageDb.put(id, message);
-        // return id;
-        return 1;
+        messageDb.put(id, message);
+        return id;
     }
 
     public int sendMessage(Message message, User sender, Group group) throws Exception {
