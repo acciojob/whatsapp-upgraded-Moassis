@@ -1,7 +1,9 @@
 package com.driver;
 
 import java.util.*;
+import org.springframework.stereotype.Repository;
 
+@Repository
 public class WhatsappRepository {
 
     HashMap<String, User> userDb = new HashMap<>(); // <Mobile, User>
