@@ -107,7 +107,7 @@ public class WhatsappRepository {
         if (!groupDb.containsKey(name)) {
             throw new Exception("Group does not exist");
         }
-        if (!group.getAdmin().equals(approver)) {
+        if (!group.getAdmin().getMobile().equals(approver.getMobile())) {
             throw new Exception("Approver does not have rights");
         }
         List<User> users = group.getMembers();
