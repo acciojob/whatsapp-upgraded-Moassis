@@ -10,10 +10,10 @@ public class Message {
     public Message() {
     }
 
-    public Message(int id, String content) {
-        this.id = id;
-        this.content = content;
-    }
+    // public Message(int id, String content) {
+    // this.id = id;
+    // this.content = content;
+    // }
 
     public Message(String content, Date timestamp) {
         this.content = content;
