@@ -76,7 +76,9 @@ public class WhatsappRepository {
         }
 
         // for messageDb
-        messageDb.put(messageCount++, message);
+        int id = messageCount++;
+        message.setId(id);
+        messageDb.put(id, message);
 
         // for userDb
         List<Message> userMessageList = sender.getMessageList();
