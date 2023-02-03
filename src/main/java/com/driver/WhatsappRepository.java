@@ -66,7 +66,7 @@ public class WhatsappRepository {
         List<User> users = group.getMembers();
         boolean flag = false;
         for (User user : users) {
-            if (user.getMobile().equals(sender.getMobile())) {
+            if (user.getName().equals(sender.getName())) {
                 flag = true;
                 break;
             }
@@ -100,13 +100,13 @@ public class WhatsappRepository {
         if (!groupDb.containsKey(name)) {
             throw new Exception("Group does not exist");
         }
-        if (!group.getAdmin().getMobile().equals(approver.getMobile())) {
+        if (!group.getAdmin().getName().equals(approver.getName())) {
             throw new Exception("Approver does not have rights");
         }
         List<User> users = group.getMembers();
         boolean flag = false;
         for (User u : users) {
-            if (u.getMobile().equals(user.getMobile())) {
+            if (u.getName().equals(user.getName())) {
                 flag = true;
                 break;
             }
@@ -126,7 +126,7 @@ public class WhatsappRepository {
         for (Group group : groupDb.values()) {
             List<User> groupUserList = group.getMembers();
             for (User member : groupUserList) {
-                if (member.getMobile().equals(user.getMobile())) {
+                if (member.getName().equals(user.getName())) {
                     searchGroup = group;
                     break;
                 }
@@ -136,7 +136,7 @@ public class WhatsappRepository {
             throw new Exception("User not found");
         }
 
-        if (user.getMobile().equals(searchGroup.getAdmin().getMobile())) {
+        if (user.getName().equals(searchGroup.getAdmin().getName())) {
             throw new Exception("Cannot remove admin");
         }
 
@@ -168,7 +168,7 @@ public class WhatsappRepository {
         List<User> searchGroupUsers = searchGroup.getMembers();
         ListIterator<User> itr = searchGroupUsers.listIterator();
         while (itr.hasNext()) {
-            if (itr.next().getMobile().equals(user.getMobile())) {
+            if (itr.next().getName().equals(user.getName())) {
                 itr.remove();
                 break;
             }

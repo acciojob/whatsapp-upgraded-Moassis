@@ -8,15 +8,11 @@ public class User {
     private String mobile;
     private List<Message> messageList = new ArrayList<>();
 
-    public List<Message> getMessageList() {
-        return messageList;
-    }
-
-    public void setMessageList(List<Message> messageList) {
-        this.messageList = messageList;
-    }
-
     public User() {
+    }
+
+    public User(String name) {
+        this.name = name;
     }
 
     public User(String name, String mobile) {
@@ -38,6 +34,14 @@ public class User {
 
     public void setMobile(String mobile) {
         this.mobile = mobile;
+    }
+
+    public List<Message> getMessageList() {
+        return messageList;
+    }
+
+    public void setMessageList(List<Message> messageList) {
+        this.messageList = messageList;
     }
 
 }
