@@ -13,12 +13,12 @@ public class WhatsappRepository {
     int messageCount = 1;
 
     public String createUser(String name, String mobile) throws Exception {
+        if (userDb.containsKey(mobile)) {
+            throw new Exception("User already exists");
+        }
         User user = new User();
         user.setMobile(mobile);
         user.setName(name);
-        if (userDb.containsKey(mobile)) {
-            throw new Exception();
-        }
         userDb.put(mobile, user);
         return "SUCCESS";
     }
