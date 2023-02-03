@@ -43,10 +43,6 @@ public class WhatsappService {
         return null;
     }
 
-    public Message getMessage(int id) {
-        return whatsappRepository.getMessage(id);
-    }
-
 }
 
 // package com.driver;
