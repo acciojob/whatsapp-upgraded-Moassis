@@ -75,10 +75,6 @@ public class WhatsappRepository {
             throw new Exception("You are not allowed to send message");
         }
 
-        // for messageDb
-        int id = message.getId();
-        messageDb.put(id, message);
-
         // for userDb
         List<Message> userMessageList = sender.getMessageList();
         userMessageList.add(message);
