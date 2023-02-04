@@ -76,7 +76,7 @@ public class WhatsappRepository {
         }
 
         // for overAllMessageList
-        overAllMessages.add(message);
+        // overAllMessages.add(message);
 
         // for userDb
         List<Message> userMessageList = sender.getMessageList();
