@@ -181,8 +181,8 @@ public class WhatsappRepository {
         // return (updated number of users in the group + the updated number of
         // messages in group + the updated number of overall messages)
 
-        int ans = searchGroupUsers.size() + searchGroup.getMessageList().size() +
-                messageDb.size();
+        int ans = searchGroupUsers.size() + searchGroup.getMessageList().size();
+        // + messageDb.size();
 
         return ans;
     }
