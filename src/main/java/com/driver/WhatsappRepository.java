@@ -143,13 +143,13 @@ public class WhatsappRepository {
         List<Message> userMessagesList = user.getMessageList();
         List<Message> groupMessagesList = searchGroup.getMessageList();
 
-        // // Remove messages from messsageDb
-        // for (Message m : userMessagesList) {
-        // int id = m.getId();
-        // if (messageDb.containsKey(id)) {
-        // messageDb.remove(id);
-        // }
-        // }
+        // Remove messages from messsageDb
+        for (Message m : userMessagesList) {
+            int id = m.getId();
+            if (messageDb.containsKey(id)) {
+                messageDb.remove(id);
+            }
+        }
 
         // InGroup Db...............
         // a....Remove messages from groupMessageList
