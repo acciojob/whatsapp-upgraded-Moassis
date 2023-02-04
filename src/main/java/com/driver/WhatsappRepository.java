@@ -8,7 +8,7 @@ public class WhatsappRepository {
 
     HashMap<String, User> userDb = new HashMap<>(); // <Mobile, User>
     HashMap<String, Group> groupDb = new HashMap<>(); // <Group Name, Group>
-    List<Message> overAllMessages = new ArrayList<>(); // <Overall message List>
+    HashMap<Integer, Message> messageDb = new HashMap<>(); // <MessageId, Message>
     int groupCount = 1;
     int messageCount = 1;
 
@@ -53,7 +53,7 @@ public class WhatsappRepository {
         Date date = new Date();
         message.setTimestamp(date);
 
-        overAllMessages.add(message);
+        messageDb.put(id, message);
         return id;
     }
 
@@ -75,8 +75,9 @@ public class WhatsappRepository {
             throw new Exception("You are not allowed to send message");
         }
 
-        // for overAllMessageList
-        // overAllMessages.add(message);
+        // for messageDb
+        int id = message.getId();
+        messageDb.put(id, message);
 
         // for userDb
         List<Message> userMessageList = sender.getMessageList();
@@ -185,7 +186,7 @@ public class WhatsappRepository {
         // messages in group + the updated number of overall messages)
 
         int ans = searchGroupUsers.size() + searchGroup.getMessageList().size() +
-                overAllMessages.size();
+                messageDb.size();
 
         return ans;
     }
