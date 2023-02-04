@@ -75,6 +75,10 @@ public class WhatsappRepository {
             throw new Exception("You are not allowed to send message");
         }
 
+        // for messageDb
+        int id = message.getId();
+        messageDb.put(id, message);
+
         // for userDb
         List<Message> userMessageList = sender.getMessageList();
         userMessageList.add(message);
@@ -139,13 +143,13 @@ public class WhatsappRepository {
         List<Message> userMessagesList = user.getMessageList();
         List<Message> groupMessagesList = searchGroup.getMessageList();
 
-        // Remove messages from messsageDb
-        for (Message m : userMessagesList) {
-            int id = m.getId();
-            if (messageDb.containsKey(id)) {
-                messageDb.remove(id);
-            }
-        }
+        // // Remove messages from messsageDb
+        // for (Message m : userMessagesList) {
+        // int id = m.getId();
+        // if (messageDb.containsKey(id)) {
+        // messageDb.remove(id);
+        // }
+        // }
 
         // InGroup Db...............
         // a....Remove messages from groupMessageList
@@ -181,8 +185,8 @@ public class WhatsappRepository {
         // return (updated number of users in the group + the updated number of
         // messages in group + the updated number of overall messages)
 
-        int ans = searchGroupUsers.size() + searchGroup.getMessageList().size();
-        // + messageDb.size();
+        int ans = searchGroupUsers.size() + searchGroup.getMessageList().size() +
+                messageDb.size();
 
         return ans;
     }
