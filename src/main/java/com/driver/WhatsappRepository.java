@@ -106,7 +106,7 @@ public class WhatsappRepository {
         List<User> users = group.getMembers();
         boolean flag = false;
         for (User u : users) {
-            if (u.getName().equals(user.getName())) {
+            if (u.getMobile().equals(user.getMobile())) {
                 flag = true;
                 break;
             }
@@ -126,7 +126,7 @@ public class WhatsappRepository {
         for (Group group : groupDb.values()) {
             List<User> groupUserList = group.getMembers();
             for (User member : groupUserList) {
-                if (member.getName().equals(user.getName())) {
+                if (member.getMobile().equals(user.getMobile())) {
                     searchGroup = group;
                     break;
                 }
@@ -143,44 +143,63 @@ public class WhatsappRepository {
         List<Message> userMessagesList = user.getMessageList();
         List<Message> groupMessagesList = searchGroup.getMessageList();
 
-        // Remove messages from messsageDb
-        for (Message m : userMessagesList) {
-            int id = m.getId();
-            if (messageDb.containsKey(id)) {
-                messageDb.remove(id);
-            }
-        }
-
-        // InGroup Db...............
-        // a....Remove messages from groupMessageList
-        for (Message m : userMessagesList) {
-            int id = m.getId();
-            ListIterator<Message> itr = groupMessagesList.listIterator();
-            while (itr.hasNext()) {
-                if (id == itr.next().getId()) {
-                    itr.remove();
-                    break;
+        // Removing
+        for (Message um : userMessagesList) {
+            for (Message gm : groupMessagesList) {
+                int userMessageId = um.getId();
+                int groupMessageId = gm.getId();
+                if (userMessageId == groupMessageId) {
+                    // From MessageDb
+                    messageDb.remove(userMessageId);
+                    // From UserDb
+                    userMessagesList.remove(um);
+                    user.setMessageList(userMessagesList);
+                    userDb.put(user.getMobile(), user);
+                    // From GroupDb
+                    groupMessagesList.remove(gm);
+                    searchGroup.setMessageList(groupMessagesList);
+                    groupDb.put(searchGroup.getName(), searchGroup);
                 }
             }
         }
-        searchGroup.setMessageList(groupMessagesList);
+
         // b....Remove user for group list
         List<User> searchGroupUsers = searchGroup.getMembers();
-        ListIterator<User> itr = searchGroupUsers.listIterator();
-        while (itr.hasNext()) {
-            if (itr.next().getName().equals(user.getName())) {
-                itr.remove();
-                break;
-            }
-        }
+        searchGroupUsers.remove(user);
         searchGroup.setMembers(searchGroupUsers);
         searchGroup.setNumberOfParticipants(searchGroupUsers.size());
         groupDb.put(searchGroup.getName(), searchGroup);
 
-        // Remove userMessageList from userDb
-        userMessagesList = new ArrayList<>();
-        user.setMessageList(userMessagesList);
-        userDb.put(user.getMobile(), user);
+        // // InGroup Db...............
+        // // a....Remove messages from groupMessageList
+        // for (Message m : userMessagesList) {
+        // int id = m.getId();
+        // ListIterator<Message> itr = groupMessagesList.listIterator();
+        // while (itr.hasNext()) {
+        // if (id == itr.next().getId()) {
+        // itr.remove();
+        // break;
+        // }
+        // }
+        // }
+        // searchGroup.setMessageList(groupMessagesList);
+        // // b....Remove user for group list
+        // List<User> searchGroupUsers = searchGroup.getMembers();
+        // ListIterator<User> itr = searchGroupUsers.listIterator();
+        // while (itr.hasNext()) {
+        // if (itr.next().getName().equals(user.getName())) {
+        // itr.remove();
+        // break;
+        // }
+        // }
+        // searchGroup.setMembers(searchGroupUsers);
+        // searchGroup.setNumberOfParticipants(searchGroupUsers.size());
+        // groupDb.put(searchGroup.getName(), searchGroup);
+
+        // // Remove userMessageList from userDb
+        // userMessagesList = new ArrayList<>();
+        // user.setMessageList(userMessagesList);
+        // userDb.put(user.getMobile(), user);
 
         // return (updated number of users in the group + the updated number of
         // messages in group + the updated number of overall messages)
