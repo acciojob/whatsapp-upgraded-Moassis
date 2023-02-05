@@ -8,7 +8,7 @@ public class WhatsappRepository {
 
     HashMap<String, User> userDb = new HashMap<>(); // <Mobile, User>
     HashMap<String, Group> groupDb = new HashMap<>(); // <Group Name, Group>
-    HashMap<Integer, Message> messageDb = new HashMap<>(); // <MessageId, Message>
+    List<Message> overallMessages = new ArrayList<>(); // <MessageId, Message>
     int groupCount = 1;
     int messageCount = 1;
 
@@ -53,7 +53,7 @@ public class WhatsappRepository {
         Date date = new Date();
         message.setTimestamp(date);
 
-        messageDb.put(id, message);
+        overallMessages.add(message);
         return id;
     }
 
@@ -146,7 +146,7 @@ public class WhatsappRepository {
                 int groupMessageId = gm.getId();
                 if (userMessageId == groupMessageId) {
                     // From MessageDb
-                    messageDb.remove(userMessageId);
+                    overallMessages.remove(userMessageId);
                     // From UserDb
                     userMessagesList.remove(um);
                     user.setMessageList(userMessagesList);
@@ -167,12 +167,24 @@ public class WhatsappRepository {
         groupDb.put(searchGroup.getName(), searchGroup);
 
         int ans = searchGroupUsers.size() + searchGroup.getMessageList().size() +
-                messageDb.size();
+                overallMessages.size();
 
         return ans;
     }
 
-    public String findMessage(Date start, Date end, int k) {
-        return null;
+    public String findMessage(Date start, Date end, int k) throws Exception {
+        int count = 0;
+        long startTime = start.getTime();
+        long endTime = end.getTime();
+        for (Message message : overallMessages) {
+            long mTime = message.getTimestamp().getTime();
+            if (mTime > startTime && mTime < endTime) {
+                count++;
+                if (count == k) {
+                    return message.getContent();
+                }
+            }
+        }
+        throw new Exception("K is greater than the number of messages");
     }
 }

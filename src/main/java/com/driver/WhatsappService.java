@@ -40,8 +40,9 @@ public class WhatsappService {
         return result;
     }
 
-    public String findMessage(Date start, Date end, int k) {
-        return null;
+    public String findMessage(Date start, Date end, int k) throws Exception {
+        String result = whatsappRepository.findMessage(start, end, k);
+        return result;
     }
 
 }
