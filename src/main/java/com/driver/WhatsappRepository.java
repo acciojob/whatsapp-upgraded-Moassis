@@ -50,8 +50,8 @@ public class WhatsappRepository {
         int id = messageCount++;
         message.setId(id);
         message.setContent(content);
-        // Date date = new Date();
-        // message.setTimestamp(date);
+        Date date = new Date();
+        message.setTimestamp(date);
 
         overallMessages.add(message);
         return id;
@@ -172,19 +172,19 @@ public class WhatsappRepository {
         return ans;
     }
 
-    // public String findMessage(Date start, Date end, int k) throws Exception {
-    // int count = 0;
-    // long startTime = start.getTime();
-    // long endTime = end.getTime();
-    // for (Message message : overallMessages) {
-    // long mTime = message.getTimestamp().getTime();
-    // if (mTime > startTime && mTime < endTime) {
-    // count++;
-    // if (count == k) {
-    // return message.getContent();
-    // }
-    // }
-    // }
-    // throw new Exception("K is greater than the number of messages");
-    // }
+    public String findMessage(Date start, Date end, int k) throws Exception {
+        int count = 0;
+        long startTime = start.getTime();
+        long endTime = end.getTime();
+        for (Message message : overallMessages) {
+            long mTime = message.getTimestamp().getTime();
+            if (mTime > startTime && mTime < endTime) {
+                count++;
+                if (count == k) {
+                    return message.getContent();
+                }
+            }
+        }
+        throw new Exception("K is greater than the number of messages");
+    }
 }
