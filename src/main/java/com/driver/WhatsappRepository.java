@@ -75,10 +75,6 @@ public class WhatsappRepository {
             throw new Exception("You are not allowed to send message");
         }
 
-        // for messageDb
-        int id = messageCount++;
-        messageDb.put(id, message);
-
         // for userDb
         List<Message> userMessageList = sender.getMessageList();
         userMessageList.add(message);
@@ -169,40 +165,6 @@ public class WhatsappRepository {
         searchGroup.setMembers(searchGroupUsers);
         searchGroup.setNumberOfParticipants(searchGroupUsers.size());
         groupDb.put(searchGroup.getName(), searchGroup);
-
-        // // InGroup Db...............
-        // // a....Remove messages from groupMessageList
-        // for (Message m : userMessagesList) {
-        // int id = m.getId();
-        // ListIterator<Message> itr = groupMessagesList.listIterator();
-        // while (itr.hasNext()) {
-        // if (id == itr.next().getId()) {
-        // itr.remove();
-        // break;
-        // }
-        // }
-        // }
-        // searchGroup.setMessageList(groupMessagesList);
-        // // b....Remove user for group list
-        // List<User> searchGroupUsers = searchGroup.getMembers();
-        // ListIterator<User> itr = searchGroupUsers.listIterator();
-        // while (itr.hasNext()) {
-        // if (itr.next().getName().equals(user.getName())) {
-        // itr.remove();
-        // break;
-        // }
-        // }
-        // searchGroup.setMembers(searchGroupUsers);
-        // searchGroup.setNumberOfParticipants(searchGroupUsers.size());
-        // groupDb.put(searchGroup.getName(), searchGroup);
-
-        // // Remove userMessageList from userDb
-        // userMessagesList = new ArrayList<>();
-        // user.setMessageList(userMessagesList);
-        // userDb.put(user.getMobile(), user);
-
-        // return (updated number of users in the group + the updated number of
-        // messages in group + the updated number of overall messages)
 
         int ans = searchGroupUsers.size() + searchGroup.getMessageList().size() +
                 messageDb.size();
